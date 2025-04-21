@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Static Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:textStyle="bold"
+            tools:text="Test Name"
+            android:paddingBottom="12dp" />
+
+    </LinearLayout>
+
+    <!-- Scrollable Section -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/img_fish"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:padding="30dp"
+                android:layout_marginHorizontal="30dp"
+                android:background="@drawable/fish_img_border"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/fishing"
+                android:importantForAccessibility="no" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/likelihood"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:paddingBottom="4dp" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="250dp"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:max="100"
+                android:progress="0"
+                android:progressBackgroundTint="#ccc"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/message" />
+
+            <!-- General Information -->
+            <TextView
+                android:id="@+id/general_information_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/general_information"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginTop="15dp"
+                android:paddingVertical="4dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/info"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground" />
+
+            <TextView
+                android:id="@+id/scientific_name_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/scientific_name"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_scientific_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/appearance_and_anatomy_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/appearance_and_anatomy"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_appearance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/common_names_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/common_names"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_common_names"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <!-- Colouration -->
+            <TextView
+                android:id="@+id/colouration_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/colouration"
+                android:textSize="22sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                android:paddingVertical="4dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/color"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground" />
+
+            <TextView
+                android:id="@+id/dominant_colour_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/dominant_colour"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <View
+                android:id="@+id/tv_dominant_colour"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/color_blob"
+                android:layout_marginBottom="12dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/description_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <!-- Feeding and Food Value -->
+            <TextView
+                android:id="@+id/feeding_and_food_value_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/feeding_and_food_value"
+                android:textSize="22sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                android:paddingVertical="4dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/food"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground" />
+
+            <TextView
+                android:id="@+id/diet_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/diet"
+                android:textSize="16sp"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_diet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/food_value_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/food_value"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_food_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/health_warnings_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/health_warnings"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_health_warnings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <!-- Habitat and Range -->
+            <TextView
+                android:id="@+id/habitat_and_range_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/habitat_and_range"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/black"
+                android:paddingVertical="4dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/habitat"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground" />
+
+            <TextView
+                android:id="@+id/depth_range_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/depth_range"
+                android:layout_marginTop="5dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_depth_range"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/distribution_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/distribution"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_distribution"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/habitat_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/habitat"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_habitat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <!-- Handling and Conservation -->
+            <TextView
+                android:id="@+id/handling_and_conservation_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/handling_and_conservation"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginTop="15dp"
+                android:paddingVertical="4dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/conservation"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground" />
+
+            <TextView
+                android:id="@+id/conservation_status_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/conservation_status"
+                android:textSize="16sp"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_conservation_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/handling_tip_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/handling_tip"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_handling_tip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <!-- Size and Lifespan -->
+            <TextView
+                android:id="@+id/size_and_lifespan_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/size_and_lifespan"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginTop="15dp"
+                android:paddingVertical="4dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/size"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground" />
+
+            <TextView
+                android:id="@+id/common_length_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/common_length"
+                android:textSize="16sp"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_common_length"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/lifespan_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/lifespan"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_lifespan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/maximum_length_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/maximum_length"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_maximum_length"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/reproduction_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/reproduction"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_reproduction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/weight_record_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/weight_record"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_weight_record"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <!-- Record Catch -->
+            <TextView
+                android:id="@+id/record_catch_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/record_catch"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/black"
+                android:paddingVertical="4dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/record"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground" />
+
+            <TextView
+                android:id="@+id/angler_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/angler"
+                android:textSize="16sp"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_record_catch_angler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/date_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/date"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_record_catch_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/location_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/location"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_record_catch_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/type_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/type"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_record_catch_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/weight_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/weight"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_record_catch_weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <!-- Taxonomy -->
+            <TextView
+                android:id="@+id/taxonomy_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/taxonomy"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/black"
+                android:paddingVertical="4dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/taxonomy"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground" />
+
+            <TextView
+                android:id="@+id/class_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/class_res"
+                android:textSize="16sp"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_taxonomy_class"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/family_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/family"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_taxonomy_family"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/genus_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/genus"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_taxonomy_genus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/kingdom_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/kingdom"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_taxonomy_kingdom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/order_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/order"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_taxonomy_order"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/phylum_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/phylum"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="4dp"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_taxonomy_phylum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingBottom="12dp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
