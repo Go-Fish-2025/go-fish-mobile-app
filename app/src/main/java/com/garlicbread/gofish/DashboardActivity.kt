@@ -34,6 +34,8 @@ import java.io.FileOutputStream
 class DashboardActivity : AppCompatActivity() {
 
     private lateinit var captureButton: ImageView
+    private lateinit var compassButton: ImageView
+
     private var capturedImageFile: File? = null
     private lateinit var fishRepository: FishRepository
 
@@ -47,6 +49,12 @@ class DashboardActivity : AppCompatActivity() {
         captureButton = findViewById(R.id.camera)
         captureButton.setOnClickListener {
             checkPermissionsAndCapture()
+        }
+
+        compassButton = findViewById(R.id.compass)
+        compassButton.setOnClickListener {
+            val intent = Intent(this, CompassActivity::class.java)
+            startActivity(intent)
         }
 
         val fishDao = GoFishDatabase.getDatabase(applicationContext).fishDao()
