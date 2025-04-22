@@ -18,6 +18,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.garlicbread.gofish.room.GoFishDatabase
 import com.garlicbread.gofish.room.repository.FishRepository
+import com.garlicbread.gofish.util.Utils.Companion.getConfidenceColor
+import com.garlicbread.gofish.util.Utils.Companion.toTitleCase
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -59,7 +61,7 @@ class FishDetailsActivity : AppCompatActivity() {
 
                     findViewById<ProgressBar>(R.id.progressBar).progress = (fish.confidence * 100).toInt()
                     findViewById<ProgressBar>(R.id.progressBar).progressTintList =
-                        ColorStateList.valueOf(getConfidenceColor(fish.confidence * 100))
+                        ColorStateList.valueOf(getConfidenceColor(fish.confidence * 100, resources))
 
                     findViewById<TextView>(R.id.tv_name).text = fish.name.toTitleCase()
 
@@ -127,19 +129,6 @@ class FishDetailsActivity : AppCompatActivity() {
                     finish()
                 }
             }
-        }
-    }
-
-    private fun getConfidenceColor(confidence: Double): Int {
-        return if (confidence > 80) resources.getColor(R.color.very_high_confidence, null)
-        else if (confidence > 60) resources.getColor(R.color.high_confidence, null)
-        else if (confidence > 40) resources.getColor(R.color.low_confidence, null)
-        else resources.getColor(R.color.very_low_confidence, null)
-    }
-
-    private fun String.toTitleCase(): String {
-        return split(" ").joinToString(" ") {
-            it.lowercase().replaceFirstChar { char -> char.titlecase() }
         }
     }
 
