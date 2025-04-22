@@ -87,13 +87,101 @@
         app:layout_constraintEnd_toEndOf="@id/camera"/>
 
     <ImageView
+        android:id="@+id/logs"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="80dp"
+        app:srcCompat="@drawable/logs"
+        android:importantForAccessibility="no"
+        app:layout_constraintTop_toBottomOf="@id/bg"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fishing_logs"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/logs"
+        app:layout_constraintStart_toStartOf="@id/logs"
+        app:layout_constraintEnd_toEndOf="@id/logs"/>
+
+    <ImageView
+        android:id="@+id/history"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="80dp"
+        app:srcCompat="@drawable/history"
+        android:importantForAccessibility="no"
+        app:layout_constraintTop_toBottomOf="@id/camera"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/scan_history"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/history"
+        app:layout_constraintStart_toStartOf="@id/history"
+        app:layout_constraintEnd_toEndOf="@id/history"/>
+
+    <ImageView
+        android:id="@+id/maps"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="80dp"
+        app:srcCompat="@drawable/maps"
+        android:importantForAccessibility="no"
+        app:layout_constraintTop_toBottomOf="@id/logs"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/maps"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/maps"
+        app:layout_constraintStart_toStartOf="@id/maps"
+        app:layout_constraintEnd_toEndOf="@id/maps"/>
+
+    <ImageView
+        android:id="@+id/weather"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="80dp"
+        app:srcCompat="@drawable/weather"
+        android:importantForAccessibility="no"
+        app:layout_constraintTop_toBottomOf="@id/history"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/weather"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/weather"
+        app:layout_constraintStart_toStartOf="@id/weather"
+        app:layout_constraintEnd_toEndOf="@id/weather"/>
+
+    <ImageView
         android:id="@+id/compass"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_margin="80dp"
         app:srcCompat="@drawable/compass"
         android:importantForAccessibility="no"
-        app:layout_constraintTop_toBottomOf="@id/bg"
+        app:layout_constraintTop_toBottomOf="@id/maps"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
