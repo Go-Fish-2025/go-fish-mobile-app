@@ -1,7 +1,14 @@
 package com.garlicbread.gofish.util
 
 import android.content.res.Resources
+import android.graphics.drawable.Drawable
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.core.content.res.ResourcesCompat
 import com.garlicbread.gofish.R
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class Utils {
 
@@ -17,6 +24,51 @@ class Utils {
             return split(" ").joinToString(" ") {
                 it.lowercase().replaceFirstChar { char -> char.titlecase() }
             }
+        }
+
+        fun getStormIndicator(stormAlert: String, resources: Resources): Drawable {
+            return if (stormAlert.startsWith("Sever")) return ResourcesCompat.getDrawable(resources, R.drawable.heavy_storm, null)
+            else if (stormAlert.startsWith("Moderate")) return ResourcesCompat.getDrawable(resources, R.drawable.moderate_storm, null)
+            else if (stormAlert.startsWith("Minor")) return ResourcesCompat.getDrawable(resources, R.drawable.light_storm, null)
+            else return ResourcesCompat.getDrawable(resources, R.drawable.no_storm, null)
+        }
+
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun formatTime(timeString: String): String {
+            return try {
+                val time = LocalTime.parse(timeString)
+                val formatter = DateTimeFormatter.ofPattern("hh:mm\na")
+                time.format(formatter)
+            } catch (_: Exception) {
+                timeString
+            }
+        }
+
+        fun formatPrecipitation(precipitation: Double, newLine: Boolean = true): String {
+            return if (newLine) String.format(Locale.getDefault(), "%.1f\nmm", precipitation)
+            else String.format(Locale.getDefault(), "%.1f mm", precipitation)
+        }
+
+        fun formatTemperature(tempCelsius: Double): String {
+            val tempFahrenheit = tempCelsius * 9 / 5 + 32
+            return String.format(Locale.getDefault(), "%d\u00B0", tempFahrenheit.toInt())
+        }
+
+        fun formatWind(windSpeed: Double, windDirection: Int, newLine: Boolean = true): String {
+            val windSpeedMph = windSpeed * 0.621371
+            val direction = when ((windDirection + 22) / 45 % 8) {
+                0 -> "N"
+                1 -> "NE"
+                2 -> "E"
+                3 -> "SE"
+                4 -> "S"
+                5 -> "SW"
+                6 -> "W"
+                7 -> "NW"
+                else -> "N"
+            }
+            return if (newLine) String.format(Locale.getDefault(), "%.1f\nmph %s", windSpeedMph, direction)
+            else String.format(Locale.getDefault(), "%.1f mph %s", windSpeedMph, direction)
         }
     }
 }

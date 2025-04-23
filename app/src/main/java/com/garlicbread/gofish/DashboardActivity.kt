@@ -36,6 +36,7 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var captureButton: ImageView
     private lateinit var compassButton: ImageView
     private lateinit var scanHistoryButton: ImageView
+    private lateinit var weatherButton: ImageView
 
     private var capturedImageFile: File? = null
     private lateinit var fishRepository: FishRepository
@@ -61,6 +62,12 @@ class DashboardActivity : AppCompatActivity() {
         scanHistoryButton = findViewById(R.id.history)
         scanHistoryButton.setOnClickListener {
             val intent = Intent(this, ScanHistoryActivity::class.java)
+            startActivity(intent)
+        }
+
+        weatherButton = findViewById(R.id.weather)
+        weatherButton.setOnClickListener {
+            val intent = Intent(this, WeatherActivity::class.java)
             startActivity(intent)
         }
 

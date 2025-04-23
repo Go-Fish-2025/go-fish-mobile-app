@@ -47,4 +47,11 @@
     <string name="fishing_logs">Fishing Logs</string>
     <string name="maps">Maps</string>
     <string name="past_scans">Past Scans</string>
+    <string name="temp">Temp\n(°F)</string>
+    <string name="underscore">-</string>
+    <string name="no_data">No Data</string>
+    <string name="_14_day_forecast">14 Day Forecast</string>
+    <string name="no_scans_yet_dive_in_with_aqua_scan_and_reel_in_smart_insights_for_your_next_big_catch">No scans yet? Dive in with Aqua Scan and reel in smart insights for your next big catch!</string>
+    <string name="hourly_forecast">Hourly History / Forecast</string>
+    <string name="enter_your_next_fishing_destination">Enter your next fishing destination…</string>
 </resources>
