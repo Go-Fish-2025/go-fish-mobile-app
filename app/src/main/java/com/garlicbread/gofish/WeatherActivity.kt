@@ -95,7 +95,9 @@ class WeatherActivity : AppCompatActivity() {
 
         cityEditText.setOnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                fetchWeather(cityEditText.text.trim().toString())
+                if (cityEditText.text.trim().isNotEmpty()) fetchWeather(cityEditText.text.trim().toString())
+                cityEditText.setText("")
+                cityEditText.clearFocus()
                 val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(v.windowToken, 0)
                 true
