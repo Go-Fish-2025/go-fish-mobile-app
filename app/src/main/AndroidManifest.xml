@@ -29,9 +29,18 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".SmartSearchActivity"
-            android:theme="@style/Theme.Material"
+            android:name=".SavedCheckpointActivity"
             android:exported="false" />
+        <activity
+            android:name=".AllCheckpointsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MapsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SmartSearchActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Material" />
         <activity
             android:name=".AllLogsActivity"
             android:exported="false" />
@@ -80,6 +89,13 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <meta-data
+            android:name="osmdroid.basePath"
+            android:value="osmdroid" />
+        <meta-data
+            android:name="osmdroid.cachePath"
+            android:value="osmdroid/tiles" />
     </application>
 
 </manifest>

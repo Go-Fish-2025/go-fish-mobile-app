@@ -85,4 +85,10 @@
     <string name="fish_name">Fish Name</string>
     <string name="pick_a_date">Pick a date</string>
     <string name="caught_within">Caught within</string>
+    <string name="best_for_trouts">Best for trouts</string>
+    <string name="short_description">Short Description</string>
+    <string name="checkpoint_label">Checkpoint Label</string>
+    <string name="north_lake">North Lake</string>
+    <string name="saved_checkpoints">Saved Checkpoints</string>
+    <string name="no_saved_checkpoints_save_them_now_to_access_them_offline_later">No saved checkpoints. Save them now to access them offline later.</string>
 </resources>

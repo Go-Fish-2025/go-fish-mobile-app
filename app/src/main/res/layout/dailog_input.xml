@@ -1,0 +1,54 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="20dp"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/checkpoint_label"
+        android:textColor="#636363"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_marginTop="10dp"/>
+
+    <EditText
+        android:id="@+id/checkpoint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/north_lake"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:textSize="16sp"
+        android:textColorHint="#ccc"
+        android:imeOptions="actionDone"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/input_field_title" />
+
+    <TextView
+        android:id="@+id/desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/short_description"
+        android:textColor="#636363"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_marginTop="20dp"/>
+
+    <EditText
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLength="30"
+        android:hint="@string/best_for_trouts"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:textSize="16sp"
+        android:textColorHint="#ccc"
+        android:imeOptions="actionDone"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/input_field_title" />
+
+</LinearLayout>

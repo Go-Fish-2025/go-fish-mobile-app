@@ -1,16 +1,23 @@
 package com.garlicbread.gofish.util
 
+import android.content.Context
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.res.ResourcesCompat
 import com.garlicbread.gofish.R
+import org.osmdroid.tileprovider.cachemanager.CacheManager
+import org.osmdroid.util.BoundingBox
+import org.osmdroid.util.MapTileIndex
+import org.osmdroid.views.MapView
 import java.text.SimpleDateFormat
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
+import kotlin.math.cos
 
 class Utils {
 
@@ -87,5 +94,67 @@ class Utils {
             val raw = SimpleDateFormat("d'$suffix' MMMM, yyyy 'at' h:mm a", Locale.US).format(date)
             return raw.replace("AM", "am").replace("PM", "pm")
         }
+
+        fun downloadTilesAroundLocation(context: Context, lat: Double, lon: Double) {
+            val usgsTopo = object : org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase(
+                "USGSTopo",
+                1,
+                18,
+                256,
+                "",
+                arrayOf("https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/")
+            ) {
+                override fun getTileURLString(pMapTileIndex: Long): String {
+                    return baseUrl + "${MapTileIndex.getZoom(pMapTileIndex)}/${MapTileIndex.getY(pMapTileIndex)}/${MapTileIndex.getX(pMapTileIndex)}"
+                }
+            }
+
+            val mapView = MapView(context)
+            mapView.setTileSource(usgsTopo)
+            mapView.setUseDataConnection(true)
+            mapView.setMultiTouchControls(false)
+
+            val milesToDeg = 1.0 / 69.0
+            val latOffset = milesToDeg
+            val lonOffset = milesToDeg / cos(Math.toRadians(lat))
+
+            val box = BoundingBox(
+                lat + latOffset,
+                lon + lonOffset,
+                lat - latOffset,
+                lon - lonOffset
+            )
+
+            val cacheManager = CacheManager(mapView)
+            val zoom = 16
+
+            cacheManager.downloadAreaAsync(
+                context,
+                box,
+                zoom,
+                zoom,
+                object : CacheManager.CacheManagerCallback {
+                    override fun onTaskComplete() {
+                        Toast.makeText(context, "1-mile tiles cached!", Toast.LENGTH_SHORT).show()
+                    }
+
+                    override fun onTaskFailed(errors: Int) {
+                        Toast.makeText(context, "Tile cache failed ($errors tiles).", Toast.LENGTH_SHORT).show()
+                    }
+
+                    override fun updateProgress(
+                        progress: Int,
+                        currentZoomLevel: Int,
+                        zoomMin: Int,
+                        zoomMax: Int
+                    ) {
+                    }
+
+                    override fun downloadStarted() {}
+                    override fun setPossibleTilesInArea(total: Int) {}
+                }
+            )
+        }
+
     }
 }
