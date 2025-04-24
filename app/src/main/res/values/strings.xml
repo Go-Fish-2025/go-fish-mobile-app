@@ -54,4 +54,23 @@
     <string name="no_scans_yet_dive_in_with_aqua_scan_and_reel_in_smart_insights_for_your_next_big_catch">No scans yet? Dive in with Aqua Scan and reel in smart insights for your next big catch!</string>
     <string name="hourly_forecast">Hourly History / Forecast</string>
     <string name="enter_your_next_fishing_destination">Enter your next fishing destination…</string>
+    <string name="all_logs">All Logs</string>
+    <string name="smart_search">Smart Search</string>
+    <string name="add_log">Add Log</string>
+    <string name="tell_us_all_about_your_new_catch">Tell us all about your new catch !</string>
+    <string name="i_think_this_is_a">I think this is a</string>
+    <string name="_0_1">0.1</string>
+    <string name="lbs">lbs</string>
+    <string name="this_weighs_around">This weighs around</string>
+    <string name="largemouth_bass">Largemouth Bass</string>
+    <string name="share_your_story">Share your story</string>
+    <string name="it_was_worth_the_wait">It was worth the wait…</string>
+    <string name="log_entry">Log Entry</string>
+    <string name="it_s_length_is_about">It\'s length is about</string>
+    <string name="cms">cms</string>
+    <string name="_1">1</string>
+    <string name="tags_optional">Tags (optional)</string>
+    <string name="solo_personal_best">\'Solo\', \'Personal Best\', …</string>
+    <string name="tap_on_a_tag_to_remove_it">Tap on a tag to remove it.</string>
+    <string name="tap_on_the_image_to_retake_or_long_press_to_remove_it">Tap on the image to retake or long press to remove it.</string>
 </resources>

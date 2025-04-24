@@ -5,18 +5,21 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.garlicbread.gofish.room.dao.FishDao
+import com.garlicbread.gofish.room.dao.LogDao
 import com.garlicbread.gofish.room.dao.WeatherDao
 import com.garlicbread.gofish.room.entity.CurrentWeatherEntity
 import com.garlicbread.gofish.room.entity.DailyForecastEntity
 import com.garlicbread.gofish.room.entity.FishEntity
 import com.garlicbread.gofish.room.entity.HourlyForecastEntity
+import com.garlicbread.gofish.room.entity.LogEntity
 import com.garlicbread.gofish.room.entity.WeatherEntity
 
 @Database(entities = [FishEntity::class, WeatherEntity::class, HourlyForecastEntity::class,
-    DailyForecastEntity::class, CurrentWeatherEntity::class], version = 1, exportSchema = false)
+    DailyForecastEntity::class, CurrentWeatherEntity::class, LogEntity::class], version = 1, exportSchema = false)
 abstract class GoFishDatabase : RoomDatabase() {
     abstract fun fishDao(): FishDao
     abstract fun weatherDao(): WeatherDao
+    abstract fun logDao(): LogDao
 
     companion object {
         @Volatile
