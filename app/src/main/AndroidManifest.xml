@@ -29,9 +29,19 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".SmartSearchActivity"
+            android:theme="@style/Theme.Material"
+            android:exported="false" />
+        <activity
+            android:name=".AllLogsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LogDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddLogActivity"
             android:exported="false"
-            android:theme="@style/Theme.AddLogs" />
+            android:theme="@style/Theme.Material" />
         <activity
             android:name=".FishLogsActivity"
             android:exported="false" />
@@ -56,6 +66,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAu7ipVbdPialk1kZSogwFpRwBIuYXghCE" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

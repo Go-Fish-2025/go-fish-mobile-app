@@ -18,12 +18,14 @@ class FishLogsActivity : AppCompatActivity() {
 
         val smartSearch = findViewById<ImageView>(R.id.smart_search)
         smartSearch.setOnClickListener {
-
+            val intent = Intent(this, SmartSearchActivity::class.java)
+            startActivity(intent)
         }
 
         val allLogs = findViewById<ImageView>(R.id.all_logs)
         allLogs.setOnClickListener {
-
+            val intent = Intent(this, AllLogsActivity::class.java)
+            startActivity(intent)
         }
     }
 }

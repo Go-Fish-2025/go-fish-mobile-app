@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/smart_search"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/fish_name_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fish_name"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/fish_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:hint="@string/e_g_largemouth_bass"
+                android:inputType="text"
+                tools:text="sfs"
+                android:background="@drawable/input_field_title"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/fish_name_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/weight_from_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/weight_ranging_from"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/fish_name"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/weight_from_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:valueFrom="0.1"
+                android:valueTo="100.0"
+                android:value="1.0"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/weight_from_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/weight_to_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/weight_ranging_to"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/weight_from_slider"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/weight_to_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:labelBehavior="gone"
+                android:valueFrom="0.1"
+                android:valueTo="100.0"
+                android:value="10.0"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/weight_to_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/weight_range"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="10–50 lbs"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/weight_to_slider"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/length_from_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/length_ranging_from"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/weight_range"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/length_from_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:labelBehavior="gone"
+                android:valueFrom="1.0"
+                android:valueTo="150.0"
+                android:value="10.0"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/length_from_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/length_to_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/length_ranging_to"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/length_from_slider"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/length_to_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:labelBehavior="gone"
+                android:valueFrom="1.0"
+                android:valueTo="150.0"
+                android:value="50.0"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/length_to_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/length_range"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="10–50 cms"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/length_to_slider"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/caught_within_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/caught_within"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/length_range"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/caught_within_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:valueFrom="0"
+                android:valueTo="100"
+                android:value="10"
+                app:labelBehavior="gone"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/caught_within_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/caught_within_range"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="50 miles"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/caught_within_slider"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/date_picker_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/date"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/caught_within_range"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/date_picker_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:hint="@string/pick_a_date"
+                android:clickable="true"
+                android:inputType="none"
+                android:background="@drawable/input_field_title"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/date_picker_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="KeyboardInaccessibleWidget,TextFields" />
+
+            <TextView
+                android:id="@+id/tag_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tags"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/date_picker_input"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/tag_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:hint="@string/e_g_solo_big_catch"
+                android:background="@drawable/input_field_title"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/tag_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                app:backgroundTint="@null"
+                android:background="@drawable/rounded_button"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textAllCaps="false"
+                android:text="@string/search"
+                android:stateListAnimator="@null"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:layout_marginTop="30dp"
+                app:layout_constraintTop_toBottomOf="@id/tag_input"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

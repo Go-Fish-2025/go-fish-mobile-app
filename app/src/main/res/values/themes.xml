@@ -1,5 +1,5 @@
 <resources>
-    <style name="Theme.AddLogs" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.Material" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">#EF6C00</item>
         <item name="colorPrimaryVariant">#E0E0E0</item>
         <item name="colorOnPrimary">#000000</item>

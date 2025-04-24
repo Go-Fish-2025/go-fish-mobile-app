@@ -12,4 +12,10 @@ interface LogDao {
 
     @Query("SELECT * FROM fish_logs ORDER BY timestamp DESC")
     suspend fun getAll(): List<LogEntity>
+
+    @Query("SELECT * FROM fish_logs WHERE id = :id")
+    suspend fun getLogById(id: Long): LogEntity?
+
+    @Query("SELECT COUNT(*) FROM fish_logs")
+    suspend fun getLogCount(): Int
 }

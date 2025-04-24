@@ -6,8 +6,10 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.content.res.ResourcesCompat
 import com.garlicbread.gofish.R
+import java.text.SimpleDateFormat
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.util.Date
 import java.util.Locale
 
 class Utils {
@@ -69,6 +71,21 @@ class Utils {
             }
             return if (newLine) String.format(Locale.getDefault(), "%.1f\nmph %s", windSpeedMph, direction)
             else String.format(Locale.getDefault(), "%.1f mph %s", windSpeedMph, direction)
+        }
+
+        fun formatTimestamp(timestamp: Long): String {
+            val date = Date(timestamp)
+            val day = SimpleDateFormat("d", Locale.US).format(date).toInt()
+            val suffix = when {
+                day in 11..13 -> "th"
+                day % 10 == 1 -> "st"
+                day % 10 == 2 -> "nd"
+                day % 10 == 3 -> "rd"
+                else -> "th"
+            }
+
+            val raw = SimpleDateFormat("d'$suffix' MMMM, yyyy 'at' h:mm a", Locale.US).format(date)
+            return raw.replace("AM", "am").replace("PM", "pm")
         }
     }
 }
