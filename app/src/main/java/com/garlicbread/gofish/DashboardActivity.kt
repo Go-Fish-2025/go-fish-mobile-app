@@ -10,6 +10,7 @@ import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Log
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +24,7 @@ import com.garlicbread.gofish.data.asFishEntity
 import com.garlicbread.gofish.retrofit.RetrofitInstance
 import com.garlicbread.gofish.room.GoFishDatabase
 import com.garlicbread.gofish.room.repository.FishRepository
+import com.garlicbread.gofish.room.repository.LogRepository
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -44,6 +46,7 @@ class DashboardActivity : AppCompatActivity() {
 
     private var capturedImageFile: File? = null
     private lateinit var fishRepository: FishRepository
+    private lateinit var logRepository: LogRepository
 
     private val TAG = "DashboardActivity"
     private val FISH_ID = "FISH_ID"
@@ -87,7 +90,13 @@ class DashboardActivity : AppCompatActivity() {
         }
 
         val fishDao = GoFishDatabase.getDatabase(applicationContext).fishDao()
+        val logDao = GoFishDatabase.getDatabase(applicationContext).logDao()
         fishRepository = FishRepository(fishDao)
+        logRepository = LogRepository(logDao)
+
+        lifecycleScope.launch {
+            findViewById<TextView>(R.id.catch_count).text = logRepository.getLogCount().toString()
+        }
 
         val imageView = findViewById<ImageView>(R.id.loading)
         Glide.with(this)
