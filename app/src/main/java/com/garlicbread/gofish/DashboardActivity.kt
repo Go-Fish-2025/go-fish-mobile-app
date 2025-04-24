@@ -4,8 +4,10 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.Settings
 import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
@@ -48,6 +50,8 @@ class DashboardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
+
+        cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
 
         captureButton = findViewById(R.id.camera)
         captureButton.setOnClickListener {
@@ -101,25 +105,22 @@ class DashboardActivity : AppCompatActivity() {
         }
     }
 
-    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-        if (permissions.all { it.value }) {
+    private val cameraPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+        if (isGranted) {
             captureImage()
-        } else {
-            Toast.makeText(this, "Camera and storage permissions are required", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun checkPermissionsAndCapture() {
-        val permissions = arrayOf(
-            Manifest.permission.CAMERA
-        )
-        val permissionsToRequest = permissions.filter {
-            ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Enable camera permission from settings", Toast.LENGTH_LONG).show()
+            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                data = Uri.fromParts("package", packageName, null)
+            }
+            startActivity(intent)
         }
-        if (permissionsToRequest.isEmpty()) {
+        else {
             captureImage()
-        } else {
-            requestPermissionLauncher.launch(permissionsToRequest.toTypedArray())
         }
     }
 

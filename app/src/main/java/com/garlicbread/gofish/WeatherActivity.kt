@@ -13,9 +13,10 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -62,15 +63,12 @@ class WeatherActivity : AppCompatActivity() {
     private lateinit var dailyAdapter: DailyForecastAdapter
     private lateinit var hourlyAdapter: HourlyForecastAdapter
 
+    private lateinit var locationPermissionLauncher: ActivityResultLauncher<String>
+
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather)
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1);
-        }
 
         val weatherDao = GoFishDatabase.getDatabase(applicationContext).weatherDao()
         weatherRepository = WeatherRepository(weatherDao)
@@ -130,6 +128,27 @@ class WeatherActivity : AppCompatActivity() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED
         ) {
+            getCurrentLocation(sharedPref, lastLat, lastLng)
+        }
+
+        locationPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                getCurrentLocation(sharedPref, lastLat, lastLng)
+            } else {
+                Toast.makeText(this, "Location access denied! Allow it in Settings.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED) {
+            locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+    }
+
+    private fun getCurrentLocation(sharedPref: android.content.SharedPreferences, lastLat: String?, lastLng: String?) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED
+        ) {
             fusedLocationClient.lastLocation
                 .addOnSuccessListener(this) { location ->
                     if (location != null) {
@@ -151,8 +170,7 @@ class WeatherActivity : AppCompatActivity() {
                     Log.e("Location", "Error getting location", e)
                     if (lastLat != null && lastLng != null) {
                         fetchWeather(lastLat.toDouble(), lastLng.toDouble(), true)
-                    }
-                    else {
+                    } else {
                         Toast.makeText(this@WeatherActivity, "Failed to fetch current location !!", Toast.LENGTH_LONG).show()
                     }
                 }
