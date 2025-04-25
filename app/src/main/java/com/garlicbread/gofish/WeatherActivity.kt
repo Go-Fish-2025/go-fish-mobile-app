@@ -42,6 +42,7 @@ import com.garlicbread.gofish.util.Utils.Companion.formatPrecipitation
 import com.garlicbread.gofish.util.Utils.Companion.formatTemperature
 import com.garlicbread.gofish.util.Utils.Companion.formatTime
 import com.garlicbread.gofish.util.Utils.Companion.formatWind
+import com.garlicbread.gofish.util.Utils.Companion.logout
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.Dispatchers
@@ -182,15 +183,23 @@ class WeatherActivity : AppCompatActivity() {
     private fun fetchWeather(latitude: Double, longitude: Double, lastKnown: Boolean = false) {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
-                val response = RetrofitInstance.api.getWeather(latitude, longitude, TimeZone.getDefault().id)
+                val rawResponse = RetrofitInstance.api.getWeather(latitude, longitude, TimeZone.getDefault().id)
+
+                if (rawResponse.code() == 401) {
+                    GoFishDatabase.getDatabase(this@WeatherActivity).clearAllTables()
+                    withContext(Dispatchers.Main) {
+                        logout(this@WeatherActivity)
+                    }
+                    return@launch
+                }
+
+                val response = rawResponse.body()
                 response?.let {
                     weatherRepository.saveWeatherData(it)
                     withContext(Dispatchers.Main) {
                         populateWeatherDetails(response, lastKnown, false)
                     }
-                } ?: withContext(Dispatchers.Main) {
-                    fallback(latitude, longitude, null, lastKnown)
-                }
+                } ?: fallback(latitude, longitude, null, lastKnown)
 
             } catch (_: Exception) {
                 fallback(latitude, longitude, null, lastKnown)
@@ -201,15 +210,22 @@ class WeatherActivity : AppCompatActivity() {
     private fun fetchWeather(location: String) {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
-                val response = RetrofitInstance.api.getWeather(location)
+                val rawResponse = RetrofitInstance.api.getWeather(location)
+
+                if (rawResponse.code() == 401) {
+                    withContext(Dispatchers.Main) {
+                        logout(this@WeatherActivity)
+                    }
+                    return@launch
+                }
+
+                val response = rawResponse.body()
                 response?.let {
                     weatherRepository.saveWeatherData(it)
                     withContext(Dispatchers.Main) {
                         populateWeatherDetails(response, false, false)
                     }
-                } ?: withContext(Dispatchers.Main) {
-                    fallback(null, null, location, false)
-                }
+                } ?: fallback(null, null, location, false)
 
             } catch (_: Exception) {
                 fallback(null, null, location, false)

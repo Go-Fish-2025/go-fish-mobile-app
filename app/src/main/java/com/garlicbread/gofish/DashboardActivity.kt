@@ -25,6 +25,8 @@ import com.garlicbread.gofish.retrofit.RetrofitInstance
 import com.garlicbread.gofish.room.GoFishDatabase
 import com.garlicbread.gofish.room.repository.FishRepository
 import com.garlicbread.gofish.room.repository.LogRepository
+import com.garlicbread.gofish.util.Utils.Companion.logout
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -110,6 +112,23 @@ class DashboardActivity : AppCompatActivity() {
             .asGif()
             .load(R.drawable.loading)
             .into(imageView)
+
+        findViewById<TextView>(R.id.greeting).text = getGreeting()
+
+        findViewById<ImageView>(R.id.sign_out).setOnClickListener {
+            androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Sign Out")
+                .setMessage("Are you sure you want to sign out?")
+                .setPositiveButton("Yes") { _, _ ->
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        GoFishDatabase.getDatabase(this@DashboardActivity).clearAllTables()
+                    }
+                    logout(this, true, true)
+                }
+                .setNegativeButton("Cancel", null)
+                .show()
+        }
+
     }
 
     private val captureImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -155,6 +174,18 @@ class DashboardActivity : AppCompatActivity() {
         return file
     }
 
+    private fun getGreeting(): String {
+        val hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
+
+        return when (hour) {
+            in 5..11 -> "Good Morning,"
+            in 12..16 -> "Good Afternoon,"
+            in 17..20 -> "Good Evening,"
+            else -> "Good Night,"
+        }
+    }
+
+
     private fun sendImageToApi(imageFile: File) {
         val requestFile = imageFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
         val imagePart = MultipartBody.Part.createFormData("file", imageFile.name, requestFile)
@@ -163,6 +194,15 @@ class DashboardActivity : AppCompatActivity() {
         RetrofitInstance.api.identifyFish(imagePart).enqueue(object : Callback<FishDetails> {
             override fun onResponse(call: Call<FishDetails>, response: Response<FishDetails>) {
                 findViewById<ImageView>(R.id.loading).isVisible = false
+
+                if (response.code() == 401) {
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        GoFishDatabase.getDatabase(this@DashboardActivity).clearAllTables()
+                    }
+                    logout(this@DashboardActivity)
+                    return
+                }
+
                 if (response.isSuccessful) {
                     val fishDetails = response.body()
                     fishDetails?.let {

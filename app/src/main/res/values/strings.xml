@@ -91,4 +91,12 @@
     <string name="north_lake">North Lake</string>
     <string name="saved_checkpoints">Saved Checkpoints</string>
     <string name="no_saved_checkpoints_save_them_now_to_access_them_offline_later">No saved checkpoints. Save them now to access them offline later.</string>
+    <string name="login">Let’s Go Fishing</string>
+    <string name="back_to_the_dock">Back to the Dock? If not, let’s reel you in.</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="default_web_client_id">41851133212-ghh8b1jb43fkpe7degn8hk01n2leti7t.apps.googleusercontent.com</string>
+    <string name="verification_email_sent_please_verify_and_try_logging_in_again">Verification email sent. Please verify and try logging in again.</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="super_angler">Super Angler !</string>
 </resources>

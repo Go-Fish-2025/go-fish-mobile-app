@@ -1,9 +1,13 @@
 package com.garlicbread.gofish.retrofit
 
 import WeatherResponse
+import com.garlicbread.gofish.data.FirebaseTokenRequest
 import com.garlicbread.gofish.data.FishDetails
+import com.garlicbread.gofish.data.JwtResponse
 import okhttp3.MultipartBody
 import retrofit2.Call
+import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -21,10 +25,15 @@ interface ApiService {
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double,
         @Query("timezone") timezone: String
-    ): WeatherResponse?
+    ): Response<WeatherResponse?>
 
     @GET("weather")
     suspend fun getWeather(
         @Query("location") location: String
-    ): WeatherResponse?
+    ): Response<WeatherResponse?>
+
+    @POST("auth/login")
+    suspend fun loginWithFirebaseToken(
+        @Body tokenRequest: FirebaseTokenRequest
+    ): Response<JwtResponse>
 }
