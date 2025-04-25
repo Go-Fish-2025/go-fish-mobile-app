@@ -33,7 +33,8 @@ class CheckpointAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.name.text = checkpoints[position].title.toTitleCase()
-        holder.description.text = checkpoints[position].description
+        holder.description.text = if (checkpoints[position].description.isNotEmpty())
+            checkpoints[position].description else "No description added"
         holder.card.setOnClickListener {
             val intent = Intent(context, SavedCheckpointActivity::class.java)
             intent.putExtra("Latitude", checkpoints[position].latitude)

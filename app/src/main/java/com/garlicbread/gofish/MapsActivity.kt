@@ -111,7 +111,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             MarkerOptions()
                                 .position(position)
                                 .title(checkpoint.title)
-                                .snippet(checkpoint.description)
+                                .snippet(if (checkpoint.description.isNotEmpty()) checkpoint.description else "No description added")
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
                         )
                     }
@@ -157,6 +157,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     MarkerOptions()
                         .position(latLng)
                         .title(title)
+                        .snippet(if (desc.isNotEmpty()) desc else "No description added")
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
                 )
                 Toast.makeText(this@MapsActivity, "Checkpoint saved!", Toast.LENGTH_SHORT).show()

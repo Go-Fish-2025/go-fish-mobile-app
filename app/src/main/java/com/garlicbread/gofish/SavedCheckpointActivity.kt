@@ -39,7 +39,7 @@ class SavedCheckpointActivity : AppCompatActivity() {
         val marker = Marker(mapView)
         marker.position = GeoPoint(lat, lng)
         marker.title = title
-        marker.snippet = desc
+        marker.snippet = if (desc.isNotEmpty()) desc else "No description added"
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
         mapView.overlays.add(marker)
     }
