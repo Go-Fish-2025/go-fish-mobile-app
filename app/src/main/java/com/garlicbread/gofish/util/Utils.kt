@@ -31,10 +31,26 @@ import com.garlicbread.gofish.constants.Constants
 import com.google.firebase.auth.FirebaseAuth
 import java.util.concurrent.TimeUnit
 import javax.crypto.spec.GCMParameterSpec
+import kotlin.math.atan2
+import kotlin.math.pow
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 class Utils {
 
     companion object {
+
+        fun haversineMiles(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
+            val R = 3958.8 // Radius of Earth in miles
+            val dLat = Math.toRadians(lat2 - lat1)
+            val dLon = Math.toRadians(lon2 - lon1)
+            val a = sin(dLat / 2).pow(2.0) +
+                    cos(Math.toRadians(lat1)) * cos(Math.toRadians(lat2)) *
+                    sin(dLon / 2).pow(2.0)
+            val c = 2 * atan2(sqrt(a), sqrt(1 - a))
+            return R * c
+        }
+
         fun getConfidenceColor(confidence: Double, resources: Resources): Int {
             return if (confidence > 80) resources.getColor(R.color.very_high_confidence, null)
             else if (confidence > 60) resources.getColor(R.color.high_confidence, null)

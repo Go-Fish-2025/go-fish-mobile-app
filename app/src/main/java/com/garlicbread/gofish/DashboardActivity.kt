@@ -1,10 +1,16 @@
 package com.garlicbread.gofish
 
 import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
@@ -12,22 +18,28 @@ import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.garlicbread.gofish.WeatherActivity
 import com.garlicbread.gofish.data.FishDetails
 import com.garlicbread.gofish.data.asFishEntity
 import com.garlicbread.gofish.retrofit.RetrofitInstance
 import com.garlicbread.gofish.room.GoFishDatabase
+import com.garlicbread.gofish.room.repository.CheckpointRepository
 import com.garlicbread.gofish.room.repository.FishRepository
 import com.garlicbread.gofish.room.repository.LogRepository
 import com.garlicbread.gofish.util.Utils.Companion.logout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -36,6 +48,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 import java.io.FileOutputStream
+import java.util.TimeZone
+import kotlin.math.ln
 
 
 class DashboardActivity : AppCompatActivity() {
@@ -51,16 +65,57 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var fishRepository: FishRepository
     private lateinit var logRepository: LogRepository
 
+    private lateinit var checkpointRepository: CheckpointRepository
+
+    private lateinit var locationPermissionLauncher: ActivityResultLauncher<String>
+
     private val TAG = "DashboardActivity"
     private val FISH_ID = "FISH_ID"
+
+    private var lat: Double? = null
+    private var lon: Double? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
+        val checkpointDao = GoFishDatabase.getDatabase(applicationContext).checkpointDao()
+        checkpointRepository = CheckpointRepository(checkpointDao)
+
+        val missingPerms = mutableListOf<String>()
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED) {
+            missingPerms.add(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
             != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 1)
+            missingPerms.add(Manifest.permission.CAMERA)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                missingPerms.add(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+
+        locationPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                getLocation()
+            }
+            if (missingPerms.size > 1){
+                ActivityCompat.requestPermissions(this, missingPerms.toTypedArray(), 1)
+            }
+        }
+
+        if (missingPerms.contains(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+        else if (missingPerms.isNotEmpty()){
+            ActivityCompat.requestPermissions(this, missingPerms.toTypedArray(), 1)
         }
 
         captureButton = findViewById(R.id.camera)
@@ -129,6 +184,85 @@ class DashboardActivity : AppCompatActivity() {
                 .show()
         }
 
+        getLocation()
+    }
+
+    private fun checkNearestCheckpoint(currentLat: Double, currentLon: Double) {
+        lifecycleScope.launch {
+            val nearest = checkpointRepository.getNearestCheckpoint(currentLat, currentLon)
+            if (nearest != null) {
+                showNotification(this@DashboardActivity, "Look up !!", "You're within 10 miles of your saved checkpoint, ${nearest.title}")
+            }
+        }
+    }
+
+    private fun checkWeather(lat: Double, lng: Double){
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val rawResponse = RetrofitInstance.api.getWeather(lat, lng, TimeZone.getDefault().id)
+
+                if (rawResponse.code() == 401) {
+                    withContext(Dispatchers.Main) {
+                        logout(this@DashboardActivity)
+                    }
+                    return@launch
+                }
+
+                val response = rawResponse.body()
+                response?.let {
+                    if (it.stormAlert.startsWith("Severe")) showNotification(
+                        this@DashboardActivity,
+                        "Watch Out !!",
+                        "Severe storm heading your way. Better postpone your fishing plans."
+                    )
+                }
+            } catch (_: Exception) { }
+        }
+    }
+
+    private fun showNotification(context: Context, title: String, message: String, channelId: String = "Alerts", notificationId: Int = 1) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+            != PackageManager.PERMISSION_GRANTED) {
+            return
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "Alerts"
+            val descriptionText = "Notifies about weather events or checkpoints"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(channelId, name, importance).apply {
+                description = descriptionText
+            }
+            val notificationManager: NotificationManager =
+                context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        val builder = NotificationCompat.Builder(context, channelId)
+            .setSmallIcon(R.drawable.fishing)
+            .setContentTitle(title)
+            .setContentText(message)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setAutoCancel(true)
+
+        with(NotificationManagerCompat.from(context)) {
+            notify(notificationId, builder.build())
+        }
+    }
+
+    private fun getLocation() {
+        val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return
+        }
+        val location: Location? = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+        lat = location?.latitude
+        lon = location?.longitude
+
+        if (lat != null && lon != null){
+            checkWeather(lat!!, lon!!)
+            checkNearestCheckpoint(lat!!, lon!!)
+        }
     }
 
     private val captureImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
