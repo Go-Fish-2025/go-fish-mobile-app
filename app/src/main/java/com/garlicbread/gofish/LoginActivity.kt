@@ -15,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.credentials.*
+import androidx.credentials.exceptions.GetCredentialCancellationException
 import com.garlicbread.gofish.data.FirebaseTokenRequest
 import com.garlicbread.gofish.data.JwtResponse
 import com.garlicbread.gofish.retrofit.RetrofitInstance
@@ -27,6 +28,7 @@ import com.garlicbread.gofish.util.Utils.Companion.logout
 import com.garlicbread.gofish.util.Utils.Companion.saveJwtTimestamp
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
@@ -199,13 +201,21 @@ class LoginActivity : ComponentActivity() {
     private val legacyGoogleSignInLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        if (result.resultCode == RESULT_OK) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+
+        if (task.isSuccessful) {
             try {
                 val account = task.getResult(ApiException::class.java)
                 firebaseAuthWithGoogle(account.idToken!!)
             } catch (e: ApiException) {
                 Toast.makeText(this, "Google Sign-In failed: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            val exception = task.exception
+            if (exception is ApiException && exception.statusCode == GoogleSignInStatusCodes.SIGN_IN_CANCELLED) {
+                Toast.makeText(this, "Google Sign-In cancelled", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Google Sign-In failed: ${exception?.message}", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -224,10 +234,13 @@ class LoginActivity : ComponentActivity() {
         lifecycleScope.launch {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                 try {
-                    val result = credentialManager.getCredential(
-                        request = credentialRequest,
-                        context = this@LoginActivity
-                    )
+                    val result = withContext(Dispatchers.Main) {
+                        credentialManager.getCredential(
+                            request = credentialRequest,
+                            context = this@LoginActivity
+                        )
+                    }
+
                     val credential = result.credential
                     if (credential is CustomCredential &&
                         credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
@@ -239,8 +252,13 @@ class LoginActivity : ComponentActivity() {
                     } else {
                         Toast.makeText(this@LoginActivity, "Unexpected credential type: ${credential::class.java.simpleName}", Toast.LENGTH_SHORT).show()
                     }
+
+                } catch (_: GetCredentialCancellationException) {
+                    Toast.makeText(this@LoginActivity, "Sign-in cancelled by user", Toast.LENGTH_SHORT).show()
                 } catch (e: GetCredentialException) {
-                    Toast.makeText(this@LoginActivity, "Sign-in failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@LoginActivity, "Credential error: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    Toast.makeText(this@LoginActivity, "Unexpected error: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
                 }
             }
             else {
