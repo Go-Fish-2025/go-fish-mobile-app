@@ -38,6 +38,7 @@ import com.garlicbread.gofish.room.repository.FishRepository
 import com.garlicbread.gofish.room.repository.LogRepository
 import com.garlicbread.gofish.util.Utils.Companion.logout
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -159,7 +160,9 @@ class DashboardActivity : AppCompatActivity() {
         logRepository = LogRepository(logDao)
 
         lifecycleScope.launch {
-            findViewById<TextView>(R.id.catch_count).text = logRepository.getLogCount().toString()
+            logRepository.getLogCount().collectLatest {
+                findViewById<TextView>(R.id.catch_count).text = it.toString()
+            }
         }
 
         val imageView = findViewById<ImageView>(R.id.loading)

@@ -2,6 +2,7 @@ package com.garlicbread.gofish.room.repository
 
 import com.garlicbread.gofish.room.dao.LogDao
 import com.garlicbread.gofish.room.entity.LogEntity
+import kotlinx.coroutines.flow.Flow
 
 class LogRepository(private val dao: LogDao) {
 
@@ -17,7 +18,7 @@ class LogRepository(private val dao: LogDao) {
         return dao.getAll()
     }
 
-    suspend fun getLogCount(): Int {
+    fun getLogCount(): Flow<Int> {
         return dao.getLogCount()
     }
 }

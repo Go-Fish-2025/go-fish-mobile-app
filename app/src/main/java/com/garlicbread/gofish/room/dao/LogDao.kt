@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.garlicbread.gofish.room.entity.LogEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface LogDao {
@@ -17,5 +18,5 @@ interface LogDao {
     suspend fun getLogById(id: Long): LogEntity?
 
     @Query("SELECT COUNT(*) FROM fish_logs")
-    suspend fun getLogCount(): Int
+    fun getLogCount(): Flow<Int>
 }
