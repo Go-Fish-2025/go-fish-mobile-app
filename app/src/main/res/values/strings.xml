@@ -99,4 +99,5 @@
     <string name="verification_email_sent_please_verify_and_try_logging_in_again">Verification email sent. Please verify and try logging in again.</string>
     <string name="sign_out">Sign Out</string>
     <string name="super_angler">Super Angler !</string>
+    <string name="ok">OK</string>
 </resources>
