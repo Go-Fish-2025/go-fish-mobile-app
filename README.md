@@ -6,7 +6,24 @@ The app interacts with a backend available [here](https://github.com/Go-Fish-202
 
 ## Pre-Requisites
 
+### Link your app to firebase
 
+1. Create a new GoFish [Firebase](https://firebase.google.com/) Project. The same one you will create or have created for the [backend](https://github.com/Go-Fish-2025/go-fish-backend).
+2. Go to Project Settings > General > Your Apps.
+3. If you had already added this Android app while creating the Firebase project in Step 1, then it should be listed here. If not, you can add your app to the firebase project now by clicking Add App.
+4. Once your app is listed. Perform the following steps.
+   - Click on your app and add the `google-services.json` in the `/app` folder (exactly 1 level below the repository root folder). Your app can now use the Firebase resources.
+   - Run the following command in your Android Studio terminal.
+     ```agsl
+     ./gradlew signingReport 
+     ```
+     Once it generates a result, copy the `SHA1` value and paste it in the SHA certificate fingerprints section under your app in the same page in Firebase after clicking Add Fingerprint.
+   -  Copy the oauth-client-id from the `google-services.json` file mentioned earlier and paste the value inside the string resource [here](https://github.com/Go-Fish-2025/go-fish-mobile-app/blob/1b5199a8bb6967818b7bd11ca703a96728bf85f7/app/src/main/res/values/strings.xml#L98).
+
+     This step is needed for the Google OAuth sign-in with Firebase Authentication.
+
+### Link your app to the backend.
+Once your backend is up and running (locally or deployed), make sure you enter its complete address with the port number (5001) in this app code so that they can communicate with each other. You need to just replace the url in [this](https://github.com/Go-Fish-2025/go-fish-mobile-app/blob/1b5199a8bb6967818b7bd11ca703a96728bf85f7/app/src/main/java/com/garlicbread/gofish/retrofit/RetrofitInstance.kt#L10) line 
 
 ## Installation
 
